@@ -1,11 +1,11 @@
 /**
- * HUB 3DS·B — Aplicación principal (Día 1)
+ * HUB 3DS·B — Aplicación principal
  * Responsabilidades:
  *  - Navegación por profesor (Javier Mineros / Arcides Canales)
  *  - Render de módulos desde data/modulos.js
  *  - Búsqueda en tiempo real y filtros por nivel
  *  - Tema claro/oscuro persistido
- *  - Checklist de entregas del Día 1
+ *  - Checklist de entregas del portal
  *  - Animaciones al scroll (Intersection Observer)
  *  - Accesibilidad (aria-live, foco visible)
  */
@@ -227,17 +227,17 @@ function createLiveRegion() {
 }
 
 function initDayCounter() {
-  const key = "hub:day1:completed";
-  const btn = document.getElementById("btn-day1-complete");
+  const key = "hub:entregas:completado";
+  const btn = document.getElementById("btn-entregas-complete");
   if (!btn) return;
 
   const completed = localStorage.getItem(key) === "1";
-  if (completed) btn.textContent = "✅ Día 1 completado";
+  if (completed) btn.textContent = "✅ Entregas completadas";
 
   btn.addEventListener("click", () => {
     const now = completed ? "0" : "1";
     localStorage.setItem(key, now);
-    btn.textContent = now === "1" ? "✅ Día 1 completado" : "Marcar Día 1 como completado";
+    btn.textContent = now === "1" ? "✅ Entregas completadas" : "Marcar entregas como completadas";
   });
 }
 

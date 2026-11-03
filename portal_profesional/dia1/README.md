@@ -1,4 +1,4 @@
-# HUB 3DS·B — Día 1 · Cimientos del HUB
+# HUB 3DS·B · Repaso del Año
 
 Portal educativo estático para el repaso integral de **3.º Bachillerato Técnico Vocacional en Desarrollo de Software «B»** (INDEL).
 
@@ -6,7 +6,7 @@ Portal educativo estático para el repaso integral de **3.º Bachillerato Técni
 **Docentes:** Javier Mineros (4 módulos) · Arcides Canales (4 módulos)  
 **Total:** 8 módulos organizados por profesor  
 **Entrega:** jueves · 10 % de la nota  
-**Estado:** Día 1 de 3 (v0.2)
+**Estado:** v0.2
 
 ---
 
@@ -55,13 +55,13 @@ Cada tarjeta de módulo muestra:
 
 ---
 
-## Funcionalidades (Día 1)
+## Funcionalidades
 
 1. **Navegación por profesor** — filtra la vista a los 4 módulos de cada docente.
 2. **Búsqueda en tiempo real** — por nombre, docente, descripción, herramientas y programas.
 3. **Filtros por nivel** — Base / Avanzado (según el docente).
 4. **Tema claro/oscuro** — toggle persistido en `localStorage`.
-5. **Checklist de entregas** — requisitos previos y producto del Día 1, guardado en `localStorage`.
+5. **Checklist de entregas** — requisitos previos y producto del portal, guardado en `localStorage`.
 6. **Animaciones al scroll** — Intersection Observer para tarjetas.
 
 ---
@@ -106,8 +106,8 @@ Todos los módulos viven en un solo archivo y se exportan como constantes:
 
 ## Rúbrica del portal (10 puntos)
 
-| Criterio | Puntos | Enfoque Día 1 |
-|----------|--------|---------------|
+| Criterio | Puntos | Enfoque del portal |
+|----------|--------|-------------------|
 | Contenido por módulo | 3 | Módulos con instrumentos, programas, herramientas, recursos y quiz |
 | Interactividad y dinamismo | 2 | Búsqueda, filtros por profesor y nivel, tema claro/oscuro |
 | Diseño creativo, intuitivo y accesible | 2 | Identidad propia, responsive, contraste, foco visible |
@@ -116,10 +116,14 @@ Todos los módulos viven en un solo archivo y se exportan como constantes:
 
 ---
 
-## Próximos días
+## Próximos pasos
 
-- **Día 2:** Datos pintan el portal solo, fichas con contenido real, revisión cruzada.
-- **Día 3:** Lanzamiento, buscador/filtros avanzados, progreso guardado, quiz interactivo, PWA opcional.
+- Fichas con contenido real por módulo.
+- Buscador y filtros avanzados.
+- Progreso del repaso guardado en el navegador.
+- Quiz interactivo con retroalimentación.
+- Modo claro y oscuro.
+- Publicación en GitHub Pages con versión etiquetada.
 
 ---
 
