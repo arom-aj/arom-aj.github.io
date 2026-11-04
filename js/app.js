@@ -22,6 +22,8 @@ const STATE = {
 const els = {
   html: document.documentElement,
   themeBtn: document.getElementById("theme-toggle"),
+  navToggle: document.getElementById("nav-toggle"),
+  navMenu: document.getElementById("nav-menu"),
   profTabs: document.querySelectorAll(".prof-tab"),
   moduleViews: document.querySelectorAll(".modules-view"),
   moduleGrids: {},
@@ -41,6 +43,7 @@ Object.values(DOCENTES).forEach((d) => {
 
 function init() {
   applyTheme();
+  bindNavToggle();
   bindProfTabs();
   bindTheme();
   renderProfesor(STATE.activeProfesor);
@@ -258,6 +261,21 @@ function observeReveals() {
     { threshold: 0.12, rootMargin: "0px 0px -60px 0px" }
   );
   document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+}
+
+function bindNavToggle() {
+  if (!els.navToggle || !els.navMenu) return;
+  els.navToggle.addEventListener("click", () => {
+    const open = els.navMenu.classList.toggle("open");
+    els.navToggle.setAttribute("aria-expanded", String(open));
+  });
+  // Cerrar al hacer clic en un enlace (móvil)
+  els.navMenu.querySelectorAll(".nav__link").forEach((link) => {
+    link.addEventListener("click", () => {
+      els.navMenu.classList.remove("open");
+      els.navToggle.setAttribute("aria-expanded", "false");
+    });
+  });
 }
 
 function bindTheme() {
