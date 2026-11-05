@@ -79,6 +79,16 @@
               <span class="stat__label">Puntos de rúbrica</span>
             </div>
           </div>
+
+          <div class="progreso-global">
+            <div class="progreso-global__etiqueta">
+              <span>Progreso del repaso</span>
+              <span id="progreso-texto">0 de 8 módulos repasados</span>
+            </div>
+            <div class="progreso-global__barra">
+              <div class="progreso-global__relleno" id="progreso-barra"></div>
+            </div>
+          </div>
         </div>
 
         <div class="hero__preview">
@@ -263,6 +273,14 @@
     <div class="modal__panel">
       <button class="modal__close" id="modal-ficha-close" aria-label="Cerrar ficha">×</button>
       <div class="modal__content" id="modal-ficha-content"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-quiz" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__overlay"></div>
+    <div class="modal__panel">
+      <button class="modal__close" id="modal-quiz-close" aria-label="Cerrar quiz">×</button>
+      <div class="modal__content" id="modal-quiz-content"></div>
     </div>
   </div>
 
