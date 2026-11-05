@@ -577,22 +577,14 @@ html.light .chip--active { color: #FFFFFF; }
 }
 
 .module-card__header {
-  padding: 18px 20px 12px;
-  display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;
+  padding: 16px 20px 12px;
+  display: flex; flex-direction: column; gap: 8px;
 }
-.module-card__id {
-  font-family: var(--font-mono);
-  font-size: 10px; font-weight: 700;
-  padding: 3px 8px; border-radius: 5px;
-  background: rgba(28, 25, 23, 0.3);
-  color: var(--text-dim); border: 1px solid rgba(0,0,0,0.1);
-  align-self: flex-start;
-}
-html.light .module-card__id { background: rgba(28, 25, 23, 0.05); border-color: rgba(0,0,0,0.06); }
 .module-card__doc {
-  font-size: 12px; font-weight: 600;
+  font-size: 11px; font-weight: 600;
   color: var(--doc-color, var(--text-muted));
   display: flex; align-items: center; gap: 6px;
+  text-transform: uppercase; letter-spacing: 0.06em;
 }
 .module-card__doc .dot {
   width: 6px; height: 6px; border-radius: 50%;
