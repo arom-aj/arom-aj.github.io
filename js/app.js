@@ -10,7 +10,7 @@
  *  - Accesibilidad (aria-live, foco visible)
  */
 
-import { DOCENTES, MODULOS, modulosPorDocente, moduloPorId } from "./data/modulos.js";
+import { DOCENTES, MODULOS, modulosPorDocente, moduloPorId } from "../data/modulos.js";
 
 const STATE = {
   activeProfesor: "javier",
