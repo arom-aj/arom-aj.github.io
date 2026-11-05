@@ -71,11 +71,7 @@ export const MODULOS = [
       "Normalización",
       "Consultas con JOIN y agregación",
     ],
-    recursos: [
-      { nombre: "Documentación MySQL", url: "https://dev.mysql.com/doc/" },
-      { nombre: "SQLZoo", url: "https://sqlzoo.net/" },
-      { nombre: "Mode Analytics SQL Tutorial", url: "https://mode.com/sql-tutorial/" },
-    ],
+    recursos: [],
     evidencias: [
       { tipo: "Diagrama", descripcion: "docs/diagrama-er.md — Modelo entidad-relación con 6 tablas y restricciones", url: "docs/diagrama-er.md" },
       { tipo: "Código", descripcion: "server/db.ts — Esquema SQLite con claves foráneas, WAL y seed de datos", url: "server/db.ts" },
@@ -128,11 +124,7 @@ export const MODULOS = [
       "Mermaid (diagramas ER)",
       "Especificación de requisitos funcionales",
     ],
-    recursos: [
-      { nombre: "Documentación de GitHub", url: "https://docs.github.com/es" },
-      { nombre: "Guía de Markdown", url: "https://www.markdownguide.org/" },
-      { nombre: "Mermaid Live Editor", url: "https://mermaid.live/" },
-    ],
+    recursos: [],
     evidencias: [
       { tipo: "Documento", descripcion: "docs/diagrama-er.md — Diagrama ER con 6 tablas y restricciones de integridad", url: "docs/diagrama-er.md" },
       { tipo: "Documento", descripcion: "StreamPulse/README.md — Documentación académica completa del proyecto", url: "StreamPulse/README.md" },
@@ -188,12 +180,7 @@ export const MODULOS = [
       "Express.js",
       "JWT (autenticación)",
     ],
-    recursos: [
-      { nombre: "Documentación de GitHub Pages", url: "https://docs.github.com/es/pages" },
-      { nombre: "MDN Web Docs — JavaScript", url: "https://developer.mozilla.org/es/docs/Web/JavaScript" },
-      { nombre: "React Documentation", url: "https://react.dev/" },
-      { nombre: "Google Gemini Docs", url: "https://ai.google.dev/" },
-    ],
+    recursos: [],
     evidencias: [
       { tipo: "Repositorio", descripcion: "StreamPulse/ — Proyecto fullstack completo con backend, frontend y documentación", url: "StreamPulse/" },
       { tipo: "Repositorio", descripcion: "Practica_Evaluada_IA/ — Plan de estudio con IA generativa y exportación PDF", url: "Practica_Evaluada_IA/" },
@@ -252,11 +239,7 @@ export const MODULOS = [
       "Dependency Injection (MauiProgram.CreateMauiApp)",
       "Android Emulator / Windows (destinos de despliegue)",
     ],
-    recursos: [
-      { nombre: "Documentación .NET MAUI", url: "https://learn.microsoft.com/es-es/dotnet/maui/" },
-      { nombre: "Microsoft Learn — C#", url: "https://learn.microsoft.com/es-es/dotnet/csharp/" },
-      { nombre: "XAML Overview", url: "https://learn.microsoft.com/es-es/dotnet/desktop/wpf/" },
-    ],
+    recursos: [],
     evidencias: [
       { tipo: "Repositorio", descripcion: "Mision1_2/ — App .NET MAUI con Shell y navegación", url: "Mision1_2/" },
       { tipo: "Repositorio", descripcion: "Aplicacion1/ — App .NET MAUI con 5 páginas (Introducción, Desarrollo, Universales, Final)", url: "Aplicacion1/" },
@@ -311,10 +294,7 @@ export const MODULOS = [
       "App.xaml / AppShell.xaml (estructura de app móvil)",
       "Android Emulator (pruebas en dispositivo móvil)",
     ],
-    recursos: [
-      { nombre: "Documentación .NET MAUI", url: "https://learn.microsoft.com/es-es/dotnet/maui/" },
-      { nombre: "Microsoft Learn — C# para principiantes", url: "https://learn.microsoft.com/es-es/dotnet/csharp/tour-of-csharp/" },
-    ],
+    recursos: [],
     evidencias: [
       { tipo: "Repositorio", descripcion: "Modulo2/ — Carpeta con 4 ejercicios .NET MAUI (Ejercicio1_M2, Ejercicio2_M2, Ejercicio3_M2, Autoevaluacion1)", url: "Modulo2/" },
       { tipo: "Repositorio", descripcion: "MauiApp1/ — Proyecto .NET MAUI básico con MainPage y NewPage1", url: "MauiApp1/" },
@@ -369,11 +349,7 @@ export const MODULOS = [
       "Microsoft.Data.Sqlite (acceso a SQLite)",
       "CommunityToolkit.Mvvm (patrón MVVM)",
     ],
-    recursos: [
-      { nombre: "Documentación .NET MAUI", url: "https://learn.microsoft.com/es-es/dotnet/maui/" },
-      { nombre: "Documentación Microsoft.Data.SqlClient", url: "https://learn.microsoft.com/es-es/dotnet/api/microsoft.data.sqlclient" },
-      { nombre: "Documentación SQLite", url: "https://www.sqlite.org/docs.html" },
-    ],
+    recursos: [],
     evidencias: [
       { tipo: "Repositorio", descripcion: "Modulo3/Platify/ — App .NET MAUI completa con login, registro, home, perfil y estadísticas", url: "Modulo3/Platify/" },
       { tipo: "Base de datos", descripcion: "Modulo3/dbplatify.sql — Script SQL Server con tablas UserProfile, FoodItem y MealLog", url: "Modulo3/dbplatify.sql" },
@@ -428,11 +404,7 @@ export const MODULOS = [
       "SQL Server (base de datos relacional)",
       "IIS Express (servidor de desarrollo web)",
     ],
-    recursos: [
-      { nombre: "Documentación ASP.NET Web Forms", url: "https://learn.microsoft.com/es-es/aspnet/web-forms/" },
-      { nombre: "Documentación SQL Server", url: "https://learn.microsoft.com/es-es/sql/sql-server/" },
-      { nombre: "Microsoft Learn — C#", url: "https://learn.microsoft.com/es-es/dotnet/csharp/" },
-    ],
+    recursos: [],
     evidencias: [
       { tipo: "Repositorio", descripcion: "Feria_Logros/GymTrack1/ — Aplicación de escritorio WinForms de gestión de gimnasio", url: "Feria_Logros/GymTrack1/" },
       { tipo: "Repositorio", descripcion: "Feria_Logros/GymTrackWeb/ — Versión web ASP.NET con login, registro, onboarding, rutinas y series", url: "Feria_Logros/GymTrackWeb/" },
