@@ -732,3 +732,71 @@ footer {
   .nav__links { gap: 18px; }
   .nav__link { font-size: 13px; }
 }
+
+/* ===== Modal de ficha de módulo ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.modal--open { display: flex; }
+.modal__overlay {
+  position: absolute; inset: 0;
+  background: rgba(28, 25, 23, 0.55);
+  backdrop-filter: blur(4px);
+}
+html.light .modal__overlay { background: rgba(28, 25, 23, 0.35); }
+.modal__panel {
+  position: relative;
+  width: 100%; max-width: 720px; max-height: 90vh;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  overflow-y: auto;
+  box-shadow: var(--shadow);
+  animation: fadeUp 0.25s ease backwards;
+}
+.modal__close {
+  position: absolute; top: 14px; right: 14px;
+  width: 36px; height: 36px; border-radius: 8px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel); color: var(--text);
+  font-size: 24px; line-height: 1; cursor: pointer;
+  display: grid; place-items: center;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.modal__close:hover { border-color: var(--color-accent); }
+.modal__content { padding: 24px; }
+.ficha-header { margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--panel-border); }
+.ficha-header .ficha-meta { margin-bottom: 8px; }
+.ficha-docente { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.ficha-titulo { font-size: 20px; font-weight: 600; color: var(--text); margin: 4px 0 4px; line-height: 1.3; }
+.ficha-area { font-size: 13px; color: var(--text-muted); font-family: var(--font-mono); }
+.ficha-descripcion { font-size: 15px; color: var(--text-muted); line-height: 1.6; margin-bottom: 22px; }
+.ficha-seccion { margin-bottom: 18px; }
+.ficha-subtitulo {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+}
+.ficha-lista {
+  list-style: none; padding: 0; margin: 0; display: grid; gap: 6px;
+}
+.ficha-lista li {
+  font-size: 14px; color: var(--text-muted);
+  padding: 6px 10px; border-radius: var(--radius-sm);
+  border: 1px solid var(--panel-border);
+  background: rgba(28, 25, 23, 0.03);
+}
+html.light .ficha-lista li { background: rgba(28, 25, 23, 0.02); }
+.ficha-lista li a { color: var(--color-accent); }
+.ficha-vacio { font-size: 13px; color: var(--text-dim); font-style: italic; margin: 0; }
+
+@media (max-width: 640px) {
+  .modal__panel { max-height: 95vh; margin: 12px; }
+  .modal__content { padding: 18px; }
+  .ficha-titulo { font-size: 18px; }
+}

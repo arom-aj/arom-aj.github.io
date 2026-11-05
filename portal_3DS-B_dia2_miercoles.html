@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Día 2 · Repaso 3.º DS «B» · Construye el portal de tu año</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070a15; --panel:#0f1630; --panel2:#0b1124; --line:#222c55; --line2:#33407a;
+  --tx:#e8edfb; --mut:#9ba7ce;
+  --cy:#22d3ee; --mg:#f046d2; --am:#ffb224; --gr:#34f5a0;
+  --fd:'Orbitron','Eurostile','Bank Gothic',system-ui,sans-serif;
+  --fb:'Exo 2',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --fm:'JetBrains Mono',ui-monospace,Consolas,'Courier New',monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{font-family:var(--fb);background:var(--bg);color:var(--tx);line-height:1.65;font-size:16px;-webkit-text-size-adjust:100%}
+a{color:var(--cy)}
+code{font-family:var(--fm);font-size:.88em;background:#141c3d;color:var(--cy);padding:1px 6px;border-radius:4px}
+:focus-visible{outline:2px solid var(--cy);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* barra superior */
+nav.top{position:sticky;top:0;z-index:20;background:rgba(7,10,21,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;align-items:center;gap:18px;min-height:56px}
+nav.top .marca{font-family:var(--fd);font-weight:600;font-size:13px;margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+nav.top a.lnk{color:var(--mut);text-decoration:none;font-size:14px;padding:6px 2px}
+nav.top a.lnk:hover{color:var(--tx)}
+.btn-pdf{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#0891b2,#22d3ee);color:#04121a;font:700 14px var(--fb);border:0;border-radius:8px;padding:9px 16px;cursor:pointer;white-space:nowrap}
+.btn-pdf:hover{filter:brightness(1.1)}
+.btn-pdf svg{width:18px;height:18px}
+
+/* portada */
+.hero{padding:54px 0 40px;border-bottom:1px solid var(--line);
+  background:
+   linear-gradient(rgba(34,211,238,.045) 1px,transparent 1px) 0 0/40px 40px,
+   linear-gradient(90deg,rgba(34,211,238,.045) 1px,transparent 1px) 0 0/40px 40px,
+   radial-gradient(900px 380px at 88% -10%,rgba(240,70,210,.16),transparent 60%),
+   var(--bg)}
+.inst{color:var(--mut);font-size:15px;margin-bottom:14px}
+h1{font-family:var(--fd);font-weight:800;font-size:clamp(26px,4.4vw,44px);line-height:1.18;max-width:21ch}
+.lead{max-width:62ch;color:var(--mut);font-size:18px;margin-top:18px}
+.ruta{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px;align-items:start}
+.ruta li{--c:var(--cy);background:rgba(15,22,48,.82);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:12px;padding:16px 18px 18px}
+.ruta li.d2{--c:var(--mg)}
+.ruta li.d3{--c:var(--am);box-shadow:0 0 0 1px rgba(255,178,36,.35),0 0 28px rgba(255,178,36,.12)}
+.ruta .fecha{font-family:var(--fd);font-weight:800;font-size:34px;line-height:1;color:var(--c)}
+.ruta .fecha small{font-size:15px;font-weight:600;color:var(--tx);margin-left:6px}
+.ruta .nom{display:block;font-weight:700;font-size:17px;margin-top:8px}
+.ruta .lim{display:block;color:var(--mut);font-size:14px;margin-top:2px}
+.ruta .pct{display:inline-block;margin-top:10px;font:700 13px var(--fb);background:var(--am);color:#241600;border-radius:999px;padding:2px 12px}
+.barra{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:26px;height:10px}
+.barra i{display:block;border-radius:6px;background:var(--cy);opacity:.9}
+.barra i:nth-child(2){background:var(--mg)}
+.barra i:nth-child(3){background:var(--am)}
+.ahora{position:absolute;top:-7px;width:3px;height:24px;background:#fff;border-radius:2px;box-shadow:0 0 10px #fff;display:none}
+.cuenta{margin-top:16px;font-size:16px;min-height:26px}
+.cuenta b{font-family:var(--fd);font-weight:600;color:var(--gr)}
+
+/* secciones */
+section.bloque{padding:50px 0;border-bottom:1px solid var(--line)}
+h2{font-family:var(--fd);font-weight:600;font-size:clamp(20px,2.6vw,26px);margin-bottom:8px}
+.intro{color:var(--mut);max-width:70ch;margin-bottom:26px}
+.print-only{display:none}
+.reglas{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 34px}
+.regla{border-left:2px solid var(--line2);padding-left:16px}
+.regla b{display:block;font-size:17px;margin-bottom:2px}
+.regla p{color:var(--mut);font-size:15px}
+.entregas{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ent{--c:var(--cy);background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:12px;padding:20px}
+.ent.d2{--c:var(--mg)}
+.ent.d3{--c:var(--am)}
+.ent h3{font-family:var(--fd);font-weight:600;font-size:15px;color:var(--c);margin-bottom:2px}
+.ent .sub{color:var(--mut);font-size:14px;margin-bottom:12px}
+.ent ul{padding-left:18px;font-size:15px}
+.ent li{margin-bottom:7px}
+.ent .sube{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line2);font-size:14px;color:var(--mut)}
+.ent .sube b{color:var(--tx)}
+
+/* selector de proyecto */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 22px}
+.chip{font:600 14px var(--fb);color:var(--mut);background:var(--panel2);border:1px solid var(--line2);border-radius:8px;padding:8px 14px;cursor:pointer}
+.chip:hover{color:var(--tx);border-color:var(--cy)}
+.chip[aria-pressed="true"]{color:#04121a;background:var(--cy);border-color:var(--cy)}
+.proy{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px}
+.proy h3{font-family:var(--fd);font-weight:800;font-size:clamp(20px,3vw,28px);line-height:1.2}
+.proy .lema{color:var(--mut);margin-top:4px}
+.metas{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:20px}
+.meta{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:15px}
+.meta b{display:block;font-size:14px;margin-bottom:4px}
+.meta.star{border-color:var(--cy);box-shadow:inset 3px 0 0 var(--cy)}
+.meta.ia{border-color:var(--gr);box-shadow:inset 3px 0 0 var(--gr)}
+.meta.man{border-color:var(--mg);box-shadow:inset 3px 0 0 var(--mg)}
+.meta.riesgo{grid-column:1/-1;border-color:var(--am);box-shadow:inset 3px 0 0 var(--am)}
+.avance{display:flex;align-items:center;gap:12px;margin-top:18px;font-size:14px;color:var(--mut)}
+.avance .pista{flex:1;height:8px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.avance .pista i{display:block;height:100%;width:0;background:var(--gr);transition:width .25s}
+.dia{--c:var(--cy);margin-top:26px;border-left:3px solid var(--c);padding-left:18px}
+.dia.d2{--c:var(--mg)}
+.dia.d3{--c:var(--am)}
+.dia h4{font-family:var(--fd);font-weight:600;font-size:16px;color:var(--c)}
+.dia h4 em{font-style:normal;font-family:var(--fb);font-weight:600;color:var(--tx);margin-left:8px;font-size:16px}
+.dia .t{font-weight:700;font-size:14px;margin:14px 0 6px}
+.chk{list-style:none}
+.chk li{margin-bottom:7px}
+.chk label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:15px}
+.chk input{accent-color:var(--c);width:18px;height:18px;margin-top:3px;flex:none}
+.chk input:checked+span{color:var(--mut);text-decoration:line-through;text-decoration-color:var(--line2)}
+.sube-p{font-size:15px;color:var(--mut)}
+.codeb{margin-top:14px;background:#060a18;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.codeb .ph{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 12px;background:#0d1431;border-bottom:1px solid var(--line);font-size:13px;font-weight:600;color:var(--mut)}
+.codeb.p .ph{color:var(--mg)}
+.codeb.ia .ph{color:var(--gr)}
+.btncopy{font:600 12px var(--fb);color:var(--tx);background:transparent;border:1px solid var(--line2);border-radius:6px;padding:3px 10px;cursor:pointer}
+.btncopy:hover{border-color:var(--cy);color:var(--cy)}
+.codeb pre{white-space:pre-wrap;word-break:break-word;padding:12px 14px;font-family:var(--fm);font-size:13px;line-height:1.6;color:#cfe9f2;overflow-x:auto}
+.codeb.p pre{font-family:var(--fb);font-size:14.5px;color:var(--tx);line-height:1.6}
+
+/* manual de usuario */
+.partes{list-style:none;counter-reset:pt;display:grid;grid-template-columns:repeat(2,1fr);gap:12px 22px;margin-bottom:28px}
+.partes li{counter-increment:pt;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--mg);border-radius:10px;padding:12px 16px;font-size:15px;color:var(--mut)}
+.partes li b{display:block;color:var(--tx);font-size:16px}
+.partes li b::before{content:counter(pt) ". ";color:var(--mg);font-family:var(--fd);font-weight:600}
+.reglas.manual{margin-bottom:6px}
+/* demo, rúbrica, calidad */
+.guion{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:6px}
+.guion li{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px;color:var(--mut)}
+.guion b{display:block;color:var(--tx);font-size:15px;margin-bottom:2px}
+.guion .min{font-family:var(--fd);font-size:20px;color:var(--am);display:block;margin-bottom:4px}
+.tabla-w{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:560px}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--panel2);font-size:14px}
+td.pt{font-family:var(--fd);font-weight:600;color:var(--am);white-space:nowrap}
+tr.total td{border-bottom:0;background:var(--panel2);font-weight:700}
+.nota{margin-top:14px;color:var(--mut);font-size:14.5px;max-width:75ch}
+.calidad .chk{--c:var(--gr);columns:2;column-gap:34px}
+.calidad li{break-inside:avoid}
+footer{padding:34px 0 60px;color:var(--mut);font-size:14.5px}
+footer b{color:var(--tx)}
+
+
+/* ===== Guía de repaso: 4 días ===== */
+.ruta.c4{grid-template-columns:repeat(4,1fr)}
+.ruta li{padding:0}
+.ruta li a{display:block;color:inherit;text-decoration:none;padding:16px 18px 18px;height:100%}
+.ruta li:hover{border-color:var(--c)}
+.ruta li.d3{box-shadow:none}
+.ruta li.d4{--c:var(--gr);box-shadow:0 0 0 1px rgba(52,245,160,.35),0 0 28px rgba(52,245,160,.12)}
+.ruta .stats{display:block;color:var(--mut);font-size:14px;margin-top:2px}
+.ruta .ver{display:inline-block;margin-top:10px;font:700 13px var(--fm);color:var(--c);border:1px solid var(--c);border-radius:6px;padding:1px 9px}
+.valor{display:inline-block;margin-top:16px;font:700 14px var(--fb);background:var(--am);color:#241600;border-radius:999px;padding:3px 14px}
+.periodos{display:flex;gap:4px;margin-top:26px}
+.per{--c:var(--cy);flex:1;height:36px;border-radius:6px;border:1px solid var(--c);background:transparent;color:var(--c);font:700 12px var(--fd);cursor:pointer;transition:background .15s}
+.per.d2{--c:var(--mg)} .per.d3{--c:var(--am)} .per.d4{--c:var(--gr)}
+.per.hecho{background:var(--c);color:#04121a;box-shadow:0 0 12px var(--c)}
+.per-txt{margin-top:10px;font-size:15px;color:var(--mut)}
+.per-txt b{font-family:var(--fd);font-weight:600;color:var(--gr)}
+.lista{padding-left:20px;max-width:75ch}
+.lista li{margin-bottom:8px}
+.ent ul.chk{padding-left:0}
+.ent.d4{--c:var(--gr)}
+.ent .sub b{color:var(--c)}
+.req{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;margin-top:26px}
+.herr{background:var(--panel2);border:1px solid var(--line2);border-radius:12px;padding:16px;margin-top:12px}
+.herr .t{font-weight:700;font-size:14px;margin:0 0 8px;color:var(--tx)}
+.herr .t:not(:first-child){margin-top:16px}
+.mapa{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.mod label{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:14.5px;background:var(--panel);height:100%}
+.mod input{accent-color:var(--cy);width:18px;height:18px;margin-top:2px;flex:none}
+.mod input:checked+span{color:var(--tx)}
+.mod span{color:var(--mut)}
+.tag{display:inline-block;font-size:12px;border:1px solid var(--line2);border-radius:999px;padding:0 9px;color:var(--mut);margin-left:6px;white-space:nowrap}
+.addmod{display:flex;flex-wrap:wrap;gap:8px}
+.addmod input[type=text],.addmod select,.cotejo input[type=text],.cotejo textarea{font:400 15px var(--fb);color:var(--tx);background:var(--panel);border:1px solid var(--line2);border-radius:8px;padding:8px 12px}
+.addmod input[type=text]{flex:1;min-width:190px}
+.cotejo textarea{width:100%;min-height:54px;margin-top:6px}
+.btn-sec{font:700 14px var(--fb);color:#04121a;background:var(--cy);border:0;border-radius:8px;padding:9px 16px;cursor:pointer}
+.btn-sec:hover{filter:brightness(1.1)}
+.btn-sec.ghost{background:transparent;color:var(--tx);border:1px solid var(--line2)}
+.extras{list-style:none;margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+.extras li{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--mg);border-radius:999px;padding:3px 6px 3px 14px;font-size:14px}
+.extras button{border:0;background:transparent;color:var(--mut);font-size:18px;line-height:1;cursor:pointer;padding:0 6px}
+.extras button:hover{color:var(--mg)}
+.ficha{border:1px solid var(--line2);border-radius:12px;background:var(--panel);padding:16px}
+.ficha .fh{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.ficha p{color:var(--mut);font-size:14.5px;margin-bottom:12px}
+.cats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.cat{--c:var(--am);border:1px solid var(--line);border-left:3px solid var(--c);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--mut);position:relative}
+.cat b{display:block;color:var(--c);font-size:15px}
+.cat i{position:absolute;right:10px;top:8px;font:600 12px var(--fm);font-style:normal;color:var(--mut)}
+.cat.pro{--c:var(--cy)} .cat.her{--c:var(--mg)} .cat.rec{--c:var(--gr)} .cat.evi{--c:#c7d2fe} .cat.qz{--c:#fda4af}
+.fuentes{display:flex;flex-wrap:wrap;gap:8px}
+.fuentes a{font-size:14px;text-decoration:none;color:var(--tx);border:1px solid var(--line2);border-radius:8px;padding:5px 12px;background:var(--panel)}
+.fuentes a:hover{border-color:var(--cy);color:var(--cy)}
+.cotejo .chk{margin-bottom:6px}
+.cotejo .chk input:checked+span{text-decoration:none;color:var(--tx)}
+.estado{margin-left:10px;color:var(--gr);font-size:14px}
+.dsec{--c:var(--cy);padding:46px 0;border-bottom:1px solid var(--line)}
+.dsec.d2{--c:var(--mg)} .dsec.d3{--c:var(--am)} .dsec.d4{--c:var(--gr)}
+.dhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.dhead h2{color:var(--c);margin:0}
+.badge{display:inline-block;border:1px solid var(--c);color:var(--c);border-radius:999px;padding:1px 12px;font:600 13px var(--fb)}
+.dmeta{color:var(--mut);max-width:74ch;margin:10px 0 4px}
+.bq{margin-top:24px;border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
+.bq>h3{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 14px;padding:12px 18px;background:var(--panel2);border-bottom:1px solid var(--line);font-family:var(--fd);font-weight:600;font-size:14.5px}
+.bq>h3 span{font-family:var(--fb);font-size:14px;color:var(--c)}
+ol.pasos{list-style:none;padding:4px 18px 8px}
+.paso{display:grid;grid-template-columns:36px 1fr;gap:14px;padding:16px 0;border-bottom:1px dashed var(--line)}
+.paso:last-child{border-bottom:0}
+.paso .n{width:34px;height:34px;border-radius:50%;background:var(--c);color:#04121a;font:800 14px var(--fd);display:grid;place-items:center}
+.paso h4{font-size:17px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.paso h4 em{font-style:normal;font-size:13px;font-weight:600;color:var(--c);border:1px solid var(--line2);border-radius:6px;padding:0 8px}
+.paso .x{color:var(--mut);font-size:15.5px;margin-top:4px}
+.paso .x+.x{margin-top:8px}
+.paso .porque{margin-top:10px;font-size:14.5px;color:var(--mut);border-left:3px solid var(--c);padding-left:12px}
+.dsec .codeb.p .ph{color:var(--c)}
+.listo{margin-top:22px;border:1px solid var(--c);border-radius:12px;padding:16px 18px;background:var(--panel)}
+.listo h3{font-family:var(--fd);font-weight:600;font-size:15px;color:var(--c);margin-bottom:10px}
+details{border:1px solid var(--line);border-radius:10px;background:var(--panel);margin-bottom:10px}
+summary{padding:12px 16px;cursor:pointer;font-weight:700}
+details>p,details>.codeb{margin:0 16px 14px}
+details>p{color:var(--mut);font-size:15px}
+.pts{font-family:var(--fd);font-weight:600;color:var(--am);white-space:nowrap;display:block;font-size:13px;margin-top:2px}
+td.crit{font-weight:700;min-width:150px}
+.print-only{display:none}
+
+/* ===== Misiones sin insumos: ideas, herramientas y recursos ===== */
+.para{margin-top:10px;font-size:14.5px;color:var(--mut)}
+.para b{display:block;color:var(--tx);font-size:14px;margin-bottom:2px}
+.para ul{padding-left:20px}
+.para li{margin-bottom:2px}
+.hrow{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.hrow b{font-size:13px;color:var(--c);margin-right:4px}
+.pill{font-size:13px;border:1px solid var(--line2);border-radius:999px;padding:1px 11px;color:var(--mut);background:var(--panel2)}
+.hrow a{font-size:13px;text-decoration:none;color:var(--tx);border:1px solid var(--line2);border-radius:8px;padding:1px 11px;background:var(--panel)}
+.hrow a:hover{border-color:var(--cy);color:var(--cy)}
+.ent.d4{--c:var(--gr)}
+@media (max-width:640px){.ruta{grid-template-columns:1fr}}
+
+/* ===== Archivos por día ===== */
+body.d1{--c:var(--cy)} body.d2{--c:var(--mg)} body.d4{--c:var(--gr)}
+.ruta li .in{display:block;color:inherit;padding:16px 18px 18px;height:100%}
+.ruta li:not(.actual){opacity:.55}
+.ruta li.actual{box-shadow:0 0 0 2px var(--c)}
+.per.otro{opacity:.42}
+.per.otro.hecho{opacity:.8}
+.logica{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.lg{border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--panel)}
+.lg.hoy{border-color:var(--c);box-shadow:inset 0 3px 0 var(--c)}
+.lg h3{font-family:var(--fd);font-weight:600;font-size:14px;margin-bottom:6px}
+.lg.hoy h3{color:var(--c)}
+.lg p{color:var(--mut);font-size:15px}
+.esc{list-style:none;display:grid;gap:8px;max-width:780px}
+.esc li{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--panel);font-size:15px}
+.esc .ico{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:800 13px var(--fd);border:1px solid var(--line2);color:var(--mut);flex:none}
+.esc .tag2{margin-left:auto;font-size:12.5px;font-weight:700;border-radius:999px;padding:1px 10px;border:1px solid var(--line2);color:var(--mut);white-space:nowrap}
+.esc li.hecho{border-color:var(--gr)}
+.esc li.hecho .ico{background:var(--gr);color:#04121a;border-color:var(--gr)}
+.esc li.hecho .tag2{color:var(--gr);border-color:var(--gr)}
+.esc li.hoy{border-color:var(--c);box-shadow:0 0 0 1px var(--c)}
+.esc li.hoy .ico{background:var(--c);color:#04121a;border-color:var(--c)}
+.esc li.hoy .tag2{color:var(--c);border-color:var(--c)}
+.esc li.luego{opacity:.55}
+.manana{border:1px dashed var(--line2);border-radius:12px;padding:16px 18px;color:var(--mut);max-width:80ch}
+.manana b{color:var(--tx)}
+.compacta td,.compacta th{padding:9px 14px;font-size:14.5px}
+@media (max-width:860px){.logica{grid-template-columns:1fr}.esc li{flex-wrap:wrap}}
+@media print{
+  .ruta li:not(.actual){opacity:1}
+  .per.otro{opacity:1}
+  .esc li,.lg,.manana{break-inside:avoid}
+  .esc li.luego{opacity:1}
+}
+
+@media (max-width:860px){
+  .ruta,.ruta.c4,.entregas,.reglas,.req,.mapa,.cats{grid-template-columns:1fr 1fr}
+  .reglas,.req,.mapa,.cats,.entregas{grid-template-columns:1fr}
+  nav.top a.lnk{display:none}
+  .periodos{gap:3px}
+  .per{height:30px;font-size:11px}
+  .paso{grid-template-columns:30px 1fr;gap:10px}
+  .paso .n{width:30px;height:30px}
+}
+@media (max-width:520px){.ruta .fecha{font-size:28px}.ruta li a{padding:14px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media print{
+  :root{--bg:#fff;--panel:#fff;--panel2:#f8fafc;--line:#cbd5e1;--line2:#94a3b8;--tx:#0f172a;--mut:#475569;--cy:#0e7490;--mg:#a21caf;--am:#b45309;--gr:#047857;color-scheme:light}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff;font-size:10.5pt}
+  nav.top,.btncopy,.noprint,.periodos,.per-txt,.herr{display:none!important}
+  .print-only{display:block}
+  .hero{background:#fff;padding:0 0 14pt}
+  .ruta li{background:#fff;box-shadow:none!important}
+  .ruta.c4{grid-template-columns:repeat(4,1fr)}
+  .reglas{grid-template-columns:repeat(2,1fr)}
+  .entregas{grid-template-columns:repeat(3,1fr)}
+  .req{grid-template-columns:1fr 1fr}
+  .dsec{break-before:page}
+  .bq,.paso,.codeb,.ent,.regla,tr,.listo,details{break-inside:avoid}
+  .bq>h3,h2,h3,h4{break-after:avoid}
+  .codeb{background:#f8fafc}
+  .codeb .ph{background:#eef2f7}
+  .codeb pre,.codeb.p pre{color:#0f172a}
+  code{background:#eef2f7;color:#0e7490}
+  .btn-pdf{display:none}
+  @page{margin:14mm}
+}
+</style>
+</head>
+<body class="d2">
+<nav class="top" aria-label="Navegación del documento">
+  <div class="wrap">
+    <span class="marca">Repaso 3.º DS «B» · Día 2 de 3</span>
+    <a class="lnk" href="#logica">La lógica</a><a class="lnk" href="#estructura">Estructura</a><a class="lnk" href="#misiones">Misiones</a><a class="lnk" href="#rubrica">Rúbrica</a><a class="lnk" href="#ayuda">Ayuda</a>
+    <button class="btn-pdf" type="button" onclick="window.print()" title="En el cuadro de impresión elige «Guardar como PDF»">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg>
+      Descargar PDF
+    </button>
+  </div>
+</nav>
+<header class="hero">
+  <div class="wrap">
+    <p class="inst">Instituto Nacional Cantón Lourdes (INDEL) · 3.º Bachillerato Técnico Vocacional en Desarrollo de Software «B»</p>
+    <h1>Día 2 · El portal cobra vida</h1>
+    <p class="lead">Los datos hacen que el portal se pinte solo, las fichas se llenan con contenido real y un compañero revisa tu trabajo.</p>
+    <div class="dhead" style="margin-top:14px"><span class="badge">Miércoles 4 de noviembre</span><span class="badge">3 períodos · 135 min</span><span class="badge">Versión v0.4</span></div>
+    <ol class="ruta" id="ruta"><li class="d1"><span class="in"><span class="fecha">Día 1<small>Martes</small></span><span class="nom">Cimientos del HUB</span><span class="stats">2 períodos · 90 min</span><span class="ver">v0.2</span></span></li><li class="d2 actual"><span class="in"><span class="fecha">Día 2<small>Miércoles</small></span><span class="nom">El portal cobra vida</span><span class="stats">3 períodos · 135 min</span><span class="ver">v0.4</span></span></li><li class="d4"><span class="in"><span class="fecha">Día 3<small>Jueves</small></span><span class="nom">Lanzamiento</span><span class="stats">4 períodos · 180 min</span><span class="ver">v1.0</span></span></li></ol>
+    <div class="periodos noprint" id="periodos" role="group" aria-label="Períodos de clase: marca cada uno al terminarlo"></div>
+    <p class="per-txt" id="perTxt" aria-live="polite"></p>
+    <span class="valor">Entrega del portal: jueves 5 de noviembre · vale 10 % de la nota</span>
+  </div>
+</header>
+<section class="bloque" id="logica">
+  <div class="wrap">
+    <h2>La lógica del día</h2>
+    <p class="intro">Cada día tiene sentido por el anterior y prepara el siguiente. Así se ve la cadena:</p>
+    <div class="logica">
+      <div class="lg"><h3>De dónde vienes</h3><p>Un portal publicado (v0.2) con portada y lista de módulos, y un equipo con roles.</p></div>
+      <div class="lg hoy"><h3>Qué construyes hoy</h3><p>Los datos hacen que el portal se pinte solo, las fichas se llenan con contenido real y un compañero revisa tu trabajo.</p></div>
+      <div class="lg"><h3>Hacia dónde vas</h3><p>Mañana es la entrega: buscador, progreso, quiz, pulido, versión 1.0 y Feria de Portales. La entrega es el jueves 5 de noviembre.</p></div>
+    </div>
+  </div>
+</section>
+<section class="bloque" id="partida">
+  <div class="wrap">
+    <h2>Punto de partida</h2>
+    <p class="intro">Confirma que el equipo llega con lo de ayer. Si algo falta, es lo primero que se arregla.</p>
+    <ul class="chk" style="max-width:780px"><li><label><input type="checkbox" data-k="ini:2:0"><span>La URL de GitHub Pages abre y muestra la versión v0.2 con portada y lista de módulos.</span></label></li><li><label><input type="checkbox" data-k="ini:2:1"><span>Cada integrante tiene su clon del repositorio actualizado.</span></label></li><li><label><input type="checkbox" data-k="ini:2:2"><span>Cada integrante sabe cuáles son sus módulos y cuál es su rol.</span></label></li><li><label><input type="checkbox" data-k="ini:2:3"><span>Traes apuntes, cuadernos y evidencias de tus módulos.</span></label></li></ul>
+    <h2 style="margin-top:30px">Tus módulos</h2>
+    <div id="tusMods"></div>
+  </div>
+</section>
+<section class="bloque" id="estructura">
+  <div class="wrap">
+    <h2>Así va quedando tu portal</h2>
+    <p class="intro">La estructura completa del portal se construye en capas, día por día. Esto es lo que ya debe existir, lo que se construye hoy y lo que viene después.</p>
+    <ul class="esc"><li class="hecho"><span class="ico" aria-hidden="true">✓</span><span>Portada y navegación</span><span class="tag2">Ya lo tienes</span></li><li class="hoy"><span class="ico" aria-hidden="true">★</span><span>Lista de módulos pintada desde datos</span><span class="tag2">Hoy</span></li><li class="hoy"><span class="ico" aria-hidden="true">★</span><span>Ficha de cada módulo con contenido verificado</span><span class="tag2">Hoy</span></li><li class="luego"><span class="ico" aria-hidden="true">○</span><span>Buscador y filtros</span><span class="tag2">Después</span></li><li class="luego"><span class="ico" aria-hidden="true">○</span><span>Progreso del repaso</span><span class="tag2">Después</span></li><li class="luego"><span class="ico" aria-hidden="true">○</span><span>Quiz interactivo</span><span class="tag2">Después</span></li><li class="luego"><span class="ico" aria-hidden="true">○</span><span>Modo claro y oscuro</span><span class="tag2">Después</span></li><li class="luego"><span class="ico" aria-hidden="true">○</span><span>Calidad: celular, accesibilidad y rendimiento</span><span class="tag2">Después</span></li><li class="luego"><span class="ico" aria-hidden="true">○</span><span>README y versión 1.0 publicada</span><span class="tag2">Después</span></li></ul>
+  </div>
+</section>
+<section class="bloque" id="niveles">
+  <div class="wrap">
+    <h2>Tres niveles para el portal</h2>
+    <p class="intro">Marca lo que ya tienes funcionando. El nivel Base es obligatorio, el nivel Pro es lo que se necesita para la nota completa y el nivel Épico es donde el portal se vuelve inolvidable.</p>
+    <div class="entregas">
+      <article class="ent d1">
+        <h3>Nivel 1 · Base</h3>
+        <p class="sub"><b>Obligatorio</b></p>
+        <ul class="chk">
+          <li><label><input type="checkbox" data-k="h3:n1:0"><span>Portada con nombre propio y navegación clara.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n1:1"><span>Todos los módulos pintados desde <code>data/modulos.js</code>.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n1:2"><span>Ficha por módulo con instrumentos, programas, herramientas, recursos y evidencias.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n1:3"><span>Diseño que se ve bien en celular.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n1:4"><span>Publicado en GitHub Pages con enlace público.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n1:5"><span>README con integrantes, enlace y registro de prompts.</span></label></li>
+        </ul>
+      </article>
+      <article class="ent d2">
+        <h3>Nivel 2 · Pro</h3>
+        <p class="sub"><b>Para la nota completa</b></p>
+        <ul class="chk">
+          <li><label><input type="checkbox" data-k="h3:n2:0"><span>Buscador y filtros en tiempo real.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n2:1"><span>Progreso del repaso guardado en el navegador.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n2:2"><span>Quiz interactivo con retroalimentación inmediata.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n2:3"><span>Modo claro y modo oscuro.</span></label></li>
+        </ul>
+      </article>
+      <article class="ent d3">
+        <h3>Nivel 3 · Épico</h3>
+        <p class="sub"><b>Opcional, para destacar</b></p>
+        <ul class="chk">
+          <li><label><input type="checkbox" data-k="h3:n3:0"><span>Flashcards de repaso.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n3:1"><span>Línea de tiempo animada del año.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n3:2"><span>Nube de tecnologías en la que se puede hacer clic y filtrar.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n3:3"><span>Logros o insignias por repasar módulos.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n3:4"><span>Instalable como app (PWA).</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n3:5"><span>Atajo de teclado para buscar.</span></label></li>
+          <li><label><input type="checkbox" data-k="h3:n3:6"><span>Tutoriales cortos en video hechos por el equipo.</span></label></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+<div id="dias"></div>
+<section class="bloque" id="manana">
+  <div class="wrap">
+    <h2>Qué sigue</h2>
+    <p class="manana"><b>Siguiente día:</b> Mañana (jueves, 4 períodos) es la entrega: buscador, progreso, quiz, pulido, versión 1.0 y Feria de Portales. Avancen hoy en las fichas lo máximo posible.</p>
+  </div>
+</section>
+<section class="bloque" id="rubrica">
+  <div class="wrap">
+    <h2>Cómo se evalúa tu portal: 10 puntos</h2>
+    <p class="intro">Esta es la versión corta. La rúbrica completa con los niveles de logro está en el archivo del día 1 y en el del día 3.</p>
+    <div class="tabla-w"><table class="compacta">
+      <thead><tr><th>Criterio</th><th>Puntos</th></tr></thead>
+      <tbody>
+        <tr><td>Contenido por módulo</td><td class="pt">3</td></tr>
+        <tr><td>Interactividad y dinamismo</td><td class="pt">2</td></tr>
+        <tr><td>Diseño creativo, intuitivo y accesible</td><td class="pt">2</td></tr>
+        <tr><td>GitHub y publicación</td><td class="pt">2</td></tr>
+        <tr><td>Dominio individual (feria)</td><td class="pt">1</td></tr>
+        <tr class="total"><td>Total</td><td class="pt">10</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+<section class="bloque" id="ayuda">
+  <div class="wrap">
+    <h2>Si algo falla: pistas, no soluciones</h2>
+    <p class="intro">Antes de levantar la mano, revisa estas pistas. Dicen <b>dónde mirar</b>; encontrar la solución es parte del repaso.</p>
+    <details><summary>No aparecen mis módulos</summary>
+      <p>Casi siempre es un error de sintaxis en el archivo de datos (una coma de más o de menos, comillas sin cerrar) o un orden equivocado al cargar los scripts. La consola del navegador te indica el archivo y la línea.</p>
+    </details>
+    <details><summary>Se ve sin estilos o no cargan los scripts</summary>
+      <p>GitHub Pages distingue mayúsculas de minúsculas y las rutas dependen de dónde se publica el sitio. Compara cómo escribes cada ruta con dónde está realmente el archivo. Abre las herramientas de desarrollo (F12) y mira la pestaña Consola y la pestaña Red: ahí dice qué archivo no se encontró.</p>
+    </details>
+    <details><summary>Git rechaza mi envío (rejected)</summary>
+      <p>Alguien subió cambios antes que tú. Piensa qué necesitas hacer con los cambios de los demás antes de subir los tuyos. Busca «pull» y «rebase» en <a href="https://git-scm.com/book/es/v2" target="_blank" rel="noopener">Pro Git</a>.</p>
+    </details>
+    <details><summary>Conflicto al unir cambios</summary>
+      <p>Git marca en el archivo las dos versiones en conflicto. Decidan en equipo cuál se queda (o combinen ambas), borren las marcas y continúen. Si dos personas editan siempre el mismo archivo, revisen cómo repartieron el trabajo.</p>
+    </details>
+    <details><summary>Se fue el internet</summary>
+      <p>Piensa qué partes de Git necesitan conexión y cuáles no. Sigue trabajando en local, guarda copia de la carpeta del proyecto en una memoria USB al final de cada día y sube todo cuando regrese la conexión.</p>
+    </details>
+    <details><summary>Subí una contraseña o una clave por error</summary>
+      <p>Cámbiala de inmediato en el servicio al que pertenece: borrar el archivo no basta, porque queda en el historial del repositorio. Avisa al docente.</p>
+    </details>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <p><b>Guía elaborada por:</b> profesor Javier Arturo García Mineros · Instituto Nacional Cantón Lourdes (INDEL)</p>
+    <p>3.º Bachillerato Técnico Vocacional en Desarrollo de Software «B» · Repaso integral del año con los módulos del profesor Javier Mineros y del profesor Arcides Canales</p>
+  </div>
+</footer>
+<script>
+(function(){
+'use strict';
+var PFX='h3B:';
+var DIAS=[{"k": "d2", "dia": "Miércoles", "fecha": "4 de noviembre", "per": 3, "ver": "v0.4", "nombre": "El portal cobra vida", "meta": "Los datos hacen que el portal se pinte solo, las fichas se llenan con contenido real y un compañero revisa tu trabajo.", "bloques": [{"t": "Período 1 · Datos y ficha del módulo", "m": 45, "pasos": [{"t": "Datos y pintado dinámico de módulos", "x": ["La página debe construirse sola a partir de datos: si agregan un módulo nuevo en el archivo de datos, aparece en la página sin tocar el HTML. Decidan qué información guarda cada módulo y en qué formato."], "q": ["¿Qué campos necesita cada módulo para cumplir con la anatomía de la ficha?", "¿Cómo recorrerían una lista de módulos para crear una tarjeta por cada uno?"], "tools": ["JavaScript puro", "Arreglos, objetos y JSON", "El DOM (crear elementos, plantillas de texto)", "Consola del navegador", "Asistente de IA (registra tus prompts y verifica todo)"], "res": [["Aprende JavaScript (MDN)", "https://developer.mozilla.org/es/docs/Learn/JavaScript"], ["JSON (MDN)", "https://developer.mozilla.org/es/docs/Learn/JavaScript/Objects/JSON"]], "porque": null, "tool": null, "chk": null, "bit": null, "m": 30}, {"t": "La ficha del módulo", "x": ["Al elegir un módulo debe verse su ficha completa: resumen, lo aprendido, instrumentos, programas, herramientas, recursos y evidencias. Decidan si será una ventana modal, una página aparte o un panel, y qué es lo más cómodo para quien repasa."], "q": ["¿Cómo se cierra una ventana modal usando solo el teclado?"], "tools": ["Elemento dialog", "Modal hecho con JavaScript", "Parámetros en la URL"], "res": [["Elemento dialog (MDN)", "https://developer.mozilla.org/es/docs/Web/HTML/Element/dialog"], ["Eventos en JavaScript (MDN)", "https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Events"]], "porque": null, "tool": null, "chk": null, "bit": null, "m": 15}]}, {"t": "Período 2 · Sprint de contenido", "m": 45, "pasos": [{"t": "Anatomía de una ficha terminada", "x": ["Aprendan a distinguir las categorías y los mínimos que debe cumplir cada ficha. El equipo se compromete a este estándar: los **instrumentos** son lo que se usó para trabajar y evaluar; los **programas** son el software; las **herramientas** son lenguajes, librerías y servicios; los **recursos** son material para seguir aprendiendo."], "q": [], "tools": [], "res": [], "porque": null, "tool": "ficha", "chk": null, "bit": null, "m": 5}, {"t": "Sprint de contenido", "x": ["Cada dueño completa las fichas de sus módulos con contenido real, verificado y escrito con sus propias palabras: instrumentos usados, programas, herramientas, recursos con enlaces que abren y al menos una evidencia. Empiecen por el módulo que mejor dominan."], "q": ["¿Cómo saben que un recurso es confiable?", "¿Cómo describirías un instrumento (una guía o una rúbrica) para que un compañero entienda qué se evaluaba?"], "tools": ["Documentación oficial", "Apuntes y cuadernos", "Herramienta Recortes o capturas de pantalla", "Asistente de IA (registra tus prompts y verifica todo)"], "res": [], "porque": null, "tool": "fuentes", "chk": null, "bit": null, "m": 40}]}, {"t": "Período 3 · Contenido, revisión y publicación", "m": 45, "pasos": [{"t": "Sprint de contenido", "x": ["Cada dueño completa las fichas de sus módulos con contenido real, verificado y escrito con sus propias palabras: instrumentos usados, programas, herramientas, recursos con enlaces que abren y al menos una evidencia. Empiecen por el módulo que mejor dominan."], "q": ["¿Cómo saben que un recurso es confiable?", "¿Cómo describirías un instrumento (una guía o una rúbrica) para que un compañero entienda qué se evaluaba?"], "tools": ["Documentación oficial", "Apuntes y cuadernos", "Herramienta Recortes o capturas de pantalla", "Asistente de IA (registra tus prompts y verifica todo)"], "res": [], "porque": null, "tool": "fuentes", "chk": null, "bit": null, "m": 20}, {"t": "Revisión cruzada con Issues", "x": ["Intercambien fichas: cada revisor compara la ficha de un compañero con la anatomía y deja lo que falta o está mal como un **Issue** en GitHub. Quien lo recibe lo corrige y lo cierra desde un commit."], "q": ["¿Cómo se redacta una revisión útil, concreta y respetuosa?"], "tools": ["GitHub Issues", "Mensajes de commit que cierran un issue"], "res": [["Documentación de Issues", "https://docs.github.com/es/issues"]], "porque": "Revisar el trabajo de otra persona es una de las formas más rápidas de aprender, y así funciona el desarrollo profesional.", "tool": null, "chk": null, "bit": null, "m": 15}, {"t": "Publicar la versión del día y bitácora", "x": ["Cada integrante sube sus cambios con su propio commit. El Líder Git etiqueta la versión del día y todos verifican la URL pública desde una ventana de incógnito. Después, cada integrante escribe su bitácora."], "q": [], "tools": ["Git", "GitHub Pages", "Etiquetas (tags) de Git"], "res": [["Etiquetado en Git (Pro Git)", "https://git-scm.com/book/es/v2/Fundamentos-de-Git-Etiquetado"], ["Documentación de GitHub Pages", "https://docs.github.com/es/pages"]], "porque": null, "tool": null, "chk": null, "bit": 4, "m": 10}]}], "listo": ["Los módulos se pintan desde datos y cada uno abre su ficha.", "Al menos la mitad de las fichas cumple todos los mínimos de la anatomía.", "Hay al menos un Issue de revisión abierto y cerrado en el repositorio.", "La versión {{v0.4}} está etiquetada y publicada.", "Cada integrante subió su bitácora."], "min": 135}];
+
+/* ===== Utilidades ===== */
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function fmt(s){return esc(s).replace(/\{\{(.+?)\}\}/g,'<code>$1</code>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')}
+function lee(k){try{return localStorage.getItem(PFX+k)}catch(e){return null}}
+function guarda(k,v){try{localStorage.setItem(PFX+k,v)}catch(e){}}
+function copiaViejo(t){
+  var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy')}catch(e){}
+  document.body.removeChild(ta);
+}
+function copiar(txt,ok){
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(ok,function(){copiaViejo(txt);ok()});
+  }else{copiaViejo(txt);ok()}
+}
+
+var DOC_J='Javier Mineros', DOC_A='Arcides Canales';
+var BIT=['Hoy aprendí o recordé…','Lo que me costó…','Cómo lo resolví (incluyendo qué le pregunté a la IA, si la usé)…','Mañana voy a…','¿Qué módulo repasaste mejor?','¿Cuál necesitas reforzar y cómo lo harás?'];
+
+var FUENTES=[
+ ['MDN Web Docs (HTML, CSS y JavaScript)','https://developer.mozilla.org/es/'],
+ ['Documentación de Python','https://docs.python.org/es/3/'],
+ ['Manual de PHP','https://www.php.net/manual/es/'],
+ ['Microsoft Learn (C#, .NET, SQL Server)','https://learn.microsoft.com/es-es/'],
+ ['Documentación de MySQL','https://dev.mysql.com/doc/'],
+ ['Docs de GitHub','https://docs.github.com/es'],
+ ['Godot Docs','https://docs.godotengine.org/es/'],
+ ['Odoo Documentation','https://www.odoo.com/documentation'],
+ ['Avalonia UI Docs','https://docs.avaloniaui.net/'],
+ ['Flet Docs','https://flet.dev/docs/'],
+ ['Uno Platform Docs','https://platform.uno/docs/'],
+ ['Bootstrap','https://getbootstrap.com/docs/']
+];
+var COTEJO=[
+ 'El portal abre desde su enlace de GitHub Pages sin errores.',
+ 'Se entiende qué es y cómo moverse en menos de 10 segundos.',
+ 'Todos los módulos tienen ficha con instrumentos, programas, herramientas y recursos.',
+ 'Los enlaces que probé abren.',
+ 'El buscador o los filtros funcionan.',
+ 'El quiz da retroalimentación al responder.',
+ 'Se ve bien en celular.',
+ 'Tiene identidad propia: nombre, colores y detalles creativos.'
+];
+
+/* ===== Herramientas interactivas ===== */
+function herramienta(t){
+  var imp='<p class="print-only nota">Esta herramienta es interactiva: ábrela en el archivo HTML.</p>';
+  if(t==='mapa'){
+    return '<div class="herr noprint" id="herrMapa"><p class="t">Agrega cada módulo que recuerdes de este año</p>'+
+      '<div class="addmod"><input type="text" id="mNombre" placeholder="Nombre del módulo" aria-label="Nombre del módulo">'+
+      '<select id="mDoc" aria-label="Docente"><option>'+DOC_J+'</option><option>'+DOC_A+'</option><option>Otro docente</option></select>'+
+      '<button type="button" class="btn-sec" id="mAdd">Agregar</button></div>'+
+      '<ul class="extras" id="mExtras"></ul><p class="per-txt" id="mResumen"></p></div>'+imp;
+  }
+  if(t==='ficha'){
+    return '<div class="ficha" style="margin-top:12px"><div class="fh"><b>Nombre del módulo</b><span class="tag">Docente</span></div>'+
+      '<p>Resumen en 2 o 3 líneas con tus palabras y 3 cosas que aprendiste.</p><div class="cats">'+
+      '<div class="cat"><i>mín. 2</i><b>Instrumentos</b>Guías, rúbricas, listas de cotejo y exámenes que se usaron.</div>'+
+      '<div class="cat pro"><i>mín. 2</i><b>Programas</b>Software que instalaste y usaste: editores, motores de base de datos, navegadores.</div>'+
+      '<div class="cat her"><i>mín. 2</i><b>Herramientas</b>Lenguajes, librerías, frameworks y servicios.</div>'+
+      '<div class="cat rec"><i>mín. 3</i><b>Recursos</b>Documentación oficial, tutoriales y videos, con enlace verificado.</div>'+
+      '<div class="cat evi"><i>mín. 1</i><b>Evidencias</b>Enlace o captura de lo que hiciste en ese módulo.</div>'+
+      '<div class="cat qz"><i>mín. 3</i><b>Quiz</b>Preguntas de opción múltiple con explicación.</div>'+
+      '</div></div>';
+  }
+  if(t==='fuentes'){
+    return '<div class="hrow" style="margin-top:12px"><b>Dónde buscar recursos confiables</b>'+FUENTES.map(function(f){
+      return '<a href="'+f[1]+'" target="_blank" rel="noopener">'+esc(f[0])+'</a>';}).join('')+'</div>';
+  }
+  if(t==='cotejo'){
+    return '<div class="herr cotejo noprint" id="herrCotejo"><p class="t">Lista de cotejo del visitante</p>'+
+      '<input type="text" id="cEquipo" placeholder="Equipo que visitas" aria-label="Equipo que visitas" style="margin-bottom:10px">'+
+      '<ul class="chk">'+COTEJO.map(function(t){return '<li><label><input type="checkbox" class="cj"><span>'+esc(t)+'</span></label></li>'}).join('')+'</ul>'+
+      '<label for="cGusto" class="t" style="display:block;margin-top:10px">Lo que más me gustó</label><textarea id="cGusto"></textarea>'+
+      '<label for="cMejora" class="t" style="display:block;margin-top:10px">Lo que mejoraría</label><textarea id="cMejora"></textarea>'+
+      '<label for="cPreg" class="t" style="display:block;margin-top:10px">Pregunta de repaso que hice</label><textarea id="cPreg"></textarea>'+
+      '<p style="margin-top:12px"><button type="button" class="btn-sec" id="cCopiar">Copiar resumen</button> <button type="button" class="btn-sec ghost" id="cLimpiar">Limpiar</button><span class="estado" id="cEstado"></span></p>'+
+      '</div>'+imp;
+  }
+  return '';
+}
+
+/* ===== Render de los días ===== */
+function paso(p,n){
+  var s='<li class="paso"><span class="n">'+n+'</span><div><h4>'+esc(p.t)+'<em>'+p.m+' min</em></h4>';
+  p.x.forEach(function(t){s+='<p class="x">'+fmt(t)+'</p>'});
+  if(p.q&&p.q.length){s+='<div class="para"><b>Para pensar</b><ul>'+p.q.map(function(t){return '<li>'+fmt(t)+'</li>'}).join('')+'</ul></div>'}
+  if(p.chk){s+='<ul class="chk" style="margin-top:8px">'+p.chk.map(function(t,i){
+    return '<li><label><input type="checkbox" data-k="aud:'+i+'"><span>'+esc(t)+'</span></label></li>'}).join('')+'</ul>'}
+  if(p.tool){s+=herramienta(p.tool)}
+  if(p.bit){s+='<div class="para"><b>Tu bitácora responde</b><ul>'+BIT.slice(0,p.bit).map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div>'}
+  if(p.tools&&p.tools.length){s+='<div class="hrow"><b>Posibles herramientas</b>'+p.tools.map(function(t){return '<span class="pill">'+esc(t)+'</span>'}).join('')+'</div>'}
+  if(p.res&&p.res.length){s+='<div class="hrow"><b>Recursos</b>'+p.res.map(function(r){return '<a href="'+r[1]+'" target="_blank" rel="noopener">'+esc(r[0])+'</a>'}).join('')+'</div>'}
+  if(p.porque){s+='<p class="porque"><b>¿Por qué?</b> '+fmt(p.porque)+'</p>'}
+  return s+'</div></li>';
+}
+function diaHTML(d){
+  var n=0;
+  var s='<section class="dsec '+d.k+'" id="misiones"><div class="wrap"><div class="dhead"><h2>Misiones de hoy</h2></div>'+
+    '<p class="dmeta">Recuerda: esta guía te da la idea, preguntas para pensar, posibles herramientas y recursos. El portal lo construyes tú. Marca cada período en la barra de arriba cuando lo termines.</p>';
+  d.bloques.forEach(function(b){
+    s+='<div class="bq"><h3>'+esc(b.t)+'<span>'+b.m+' min</span></h3><ol class="pasos">';
+    b.pasos.forEach(function(p){n++;s+=paso(p,n)});
+    s+='</ol></div>';
+  });
+  s+='<div class="listo" id="listo"><h3>Listo para entregar hoy cuando…</h3><ul class="chk">'+
+    d.listo.map(function(t,i){return '<li><label><input type="checkbox" data-k="'+d.k+':listo:'+i+'"><span>'+fmt(t)+'</span></label></li>'}).join('')+'</ul></div>';
+  if(d.reto){s+='<p class="nota">'+fmt(d.reto)+'</p>'}
+  return s+'</div></section>';
+}
+$('dias').innerHTML=DIAS.map(diaHTML).join('');
+
+/* ===== Barra de períodos (compartida entre los archivos de los días) ===== */
+var ALL=[{"k": "d1", "dia": "Martes", "per": 2}, {"k": "d2", "dia": "Miércoles", "per": 3}, {"k": "d4", "dia": "Jueves", "per": 4}], ACTUAL='d2';
+var TOTAL=0;
+$('periodos').innerHTML=ALL.map(function(d){
+  var s='';
+  for(var i=0;i<d.per;i++){TOTAL++;s+='<button type="button" class="per '+d.k+(d.k===ACTUAL?'':' otro')+'" data-i="'+TOTAL+'" aria-pressed="false" aria-label="Período '+TOTAL+' ('+d.dia+')">'+TOTAL+'</button>'}
+  return s;
+}).join('');
+function pintaPer(){
+  var hechos=0,bs=document.querySelectorAll('.per');
+  for(var i=0;i<bs.length;i++){
+    var on=lee('per:'+bs[i].getAttribute('data-i'))==='1';
+    bs[i].classList.toggle('hecho',on);bs[i].setAttribute('aria-pressed',on?'true':'false');
+    if(on)hechos++;
+  }
+  $('perTxt').innerHTML='Períodos completados: <b>'+hechos+' de '+TOTAL+'</b> (los de hoy están resaltados). Marca cada uno al terminarlo.';
+}
+pintaPer();
+
+/* ===== Mapa del año ===== */
+var mapa=[];
+try{mapa=JSON.parse(lee('mapa')||'[]')}catch(e){mapa=[]}
+function pintaMapa(){
+  var ul=$('mExtras');if(!ul)return;
+  ul.innerHTML=mapa.map(function(e,i){return '<li>'+esc(e.n)+'<span class="tag">'+esc(e.d)+'</span><button type="button" data-del="'+i+'" aria-label="Quitar '+esc(e.n)+'">×</button></li>'}).join('');
+  var j=0,a=0,o=0;
+  mapa.forEach(function(e){if(e.d===DOC_J)j++;else if(e.d===DOC_A)a++;else o++});
+  $('mResumen').innerHTML=mapa.length?
+    'Módulos en el mapa: <b>'+mapa.length+'</b> · con Javier Mineros: <b>'+j+'</b> · con Arcides Canales: <b>'+a+'</b> · con otros docentes: <b>'+o+'</b>':
+    'Todavía no hay módulos. Empiecen por los que todos recordaron.';
+}
+function initMapa(){
+  if(!$('herrMapa'))return;
+  pintaMapa();
+  $('mAdd').addEventListener('click',function(){
+    var n=$('mNombre').value.trim();if(!n)return;
+    mapa.push({n:n,d:$('mDoc').value});guarda('mapa',JSON.stringify(mapa));
+    $('mNombre').value='';$('mNombre').focus();pintaMapa();
+  });
+  $('mNombre').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();$('mAdd').click()}});
+  $('mExtras').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-del]');if(!b)return;
+    mapa.splice(parseInt(b.getAttribute('data-del'),10),1);guarda('mapa',JSON.stringify(mapa));pintaMapa();
+  });
+}
+initMapa();
+function pintaTusMods(){
+  var box=$('tusMods');if(!box)return;
+  var m=[];try{m=JSON.parse(lee('mapa')||'[]')}catch(e){m=[]}
+  box.innerHTML=m.length?'<ul class="extras">'+m.map(function(e){return '<li>'+esc(e.n)+'<span class="tag">'+esc(e.d)+'</span></li>'}).join('')+'</ul>':
+    '<p class="x" style="color:var(--mut)">Aquí aparecen los módulos que agregaste en el «Mapa del año» del día 1 (si usas el mismo navegador). Si no aparecen, escríbelos de nuevo en tu bitácora.</p>';
+}
+pintaTusMods();
+
+/* ===== Coevaluación en la feria ===== */
+function initCotejo(){
+  var box=$('herrCotejo');if(!box)return;
+  $('cCopiar').addEventListener('click',function(){
+    var cj=box.querySelectorAll('.cj'),md='### Coevaluación del portal: '+($('cEquipo').value.trim()||'equipo sin nombre')+'\n\n';
+    for(var i=0;i<cj.length;i++){md+='- ['+(cj[i].checked?'x':' ')+'] '+COTEJO[i]+'\n'}
+    md+='\n**Lo que más me gustó:** '+$('cGusto').value.trim()+'\n\n**Lo que mejoraría:** '+$('cMejora').value.trim()+'\n\n**Pregunta de repaso que hice:** '+$('cPreg').value.trim()+'\n';
+    copiar(md,function(){$('cEstado').textContent='Copiado';setTimeout(function(){$('cEstado').textContent=''},1800)});
+  });
+  $('cLimpiar').addEventListener('click',function(){
+    box.querySelectorAll('.cj').forEach(function(c){c.checked=false});
+    ['cEquipo','cGusto','cMejora','cPreg'].forEach(function(id){$(id).value=''});
+  });
+}
+initCotejo();
+
+/* ===== Casillas guardadas y barra de períodos ===== */
+var cajas=document.querySelectorAll('input[type=checkbox][data-k]');
+for(var i=0;i<cajas.length;i++){cajas[i].checked=lee(cajas[i].getAttribute('data-k'))==='1'}
+document.addEventListener('change',function(e){
+  var c=e.target;
+  if(c.type==='checkbox'&&c.getAttribute('data-k')){guarda(c.getAttribute('data-k'),c.checked?'1':'0')}
+});
+document.addEventListener('click',function(e){
+  var p=e.target.closest('.per');
+  if(p){var k='per:'+p.getAttribute('data-i');guarda(k,lee(k)==='1'?'0':'1');pintaPer()}
+});
+var abiertos=[];
+window.addEventListener('beforeprint',function(){
+  abiertos=[];document.querySelectorAll('details').forEach(function(d,i){if(!d.open){abiertos.push(i);d.open=true}});
+});
+window.addEventListener('afterprint',function(){
+  var ds=document.querySelectorAll('details');abiertos.forEach(function(i){ds[i].open=false});
+});
+})();
+</script>
+</body>
+</html>

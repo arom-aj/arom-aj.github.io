@@ -31,6 +31,9 @@ const els = {
   counts: {},
   chips: {},
   liveRegions: {},
+  modalFicha: document.getElementById("modal-ficha"),
+  modalFichaClose: document.getElementById("modal-ficha-close"),
+  modalFichaContent: document.getElementById("modal-ficha-content"),
 };
 
 Object.values(DOCENTES).forEach((d) => {
@@ -46,6 +49,7 @@ function init() {
   bindNavToggle();
   bindProfTabs();
   bindTheme();
+  bindFichaModal();
   renderProfesor(STATE.activeProfesor);
   observeReveals();
   initDayCounter();
@@ -280,6 +284,118 @@ function bindNavToggle() {
 
 function bindTheme() {
   els.themeBtn.addEventListener("click", toggleTheme);
+}
+
+function bindFichaModal() {
+  if (!els.modalFicha || !els.modalFichaClose || !els.modalFichaContent) return;
+
+  els.modalFichaClose.addEventListener("click", closeFicha);
+
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-module]");
+    if (btn) {
+      const id = btn.getAttribute("data-module");
+      openFicha(id);
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && els.modalFicha.classList.contains("modal--open")) {
+      closeFicha();
+    }
+  });
+
+  els.modalFicha.addEventListener("click", (e) => {
+    if (e.target === els.modalFicha) closeFicha();
+  });
+}
+
+function openFicha(id) {
+  const m = moduloPorId(id);
+  if (!m || !els.modalFicha || !els.modalFichaContent) return;
+
+  const docenteColor =
+    DOCENTES.find((d) => d.id === m.docenteId)?.color || "#9ba7ce";
+
+  const lista = (arr) =>
+    arr.length
+      ? `<ul class="ficha-lista">${arr.map((i) => `<li>${escapeHtml(i)}</li>`).join("")}</ul>`
+      : '<p class="ficha-vacio">Sin datos cargados aún.</p>';
+
+  const recursosLista = m.recursos.length
+    ? `<ul class="ficha-lista">${m.recursos
+        .map((r) => `<li><a href="${escapeHtml(r.url)}" target="_blank" rel="noopener">${escapeHtml(r.nombre)}</a></li>`)
+        .join("")}</ul>`
+      : '<p class="ficha-vacio">Sin datos cargados aún.</p>';
+
+  const evidenciasLista = m.evidencias.length
+    ? `<ul class="ficha-lista">${m.evidencias
+        .map(
+          (e) =>
+            `<li><strong>${escapeHtml(e.tipo)}:</strong> ${escapeHtml(e.descripcion)}${
+              e.url && e.url !== "#" ? ` <a href="${escapeHtml(e.url)}" target="_blank" rel="noopener">ver enlace</a>` : ""
+            }</li>`
+        )
+        .join("")}</ul>`
+      : '<p class="ficha-vacio">Sin datos cargados aún.</p>';
+
+  const quizLista = m.quiz.length
+    ? `<ol class="ficha-lista">${m.quiz
+        .map(
+          (q, i) =>
+            `<li><strong>P${i + 1}. ${escapeHtml(q.pregunta)}</strong><br>Respuesta: ${escapeHtml(q.opciones[q.respuesta])}</li>`
+        )
+        .join("")}</ol>`
+      : '<p class="ficha-vacio">Sin datos cargados aún.</p>';
+
+  els.modalFichaContent.innerHTML = `
+    <div class="ficha-header" style="border-left:4px solid ${docenteColor};">
+      <div class="ficha-meta" style="display:flex;align-items:center;gap:10px;">
+        <span class="ficha-docente-dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${docenteColor}"></span>
+        <span class="ficha-docente">${escapeHtml(m.docente)}</span>
+      </div>
+      <h2 class="ficha-titulo">${escapeHtml(m.nombre)}</h2>
+      <p class="ficha-area">${escapeHtml(m.area)} · Nivel ${escapeHtml(m.nivel)}</p>
+    </div>
+    <p class="ficha-descripcion">${escapeHtml(m.descripcion)}</p>
+
+    <div class="ficha-seccion">
+      <h3 class="ficha-subtitulo">Instrumentos</h3>
+      ${lista(m.instrumentos)}
+    </div>
+    <div class="ficha-seccion">
+      <h3 class="ficha-subtitulo">Programas</h3>
+      ${lista(m.programas)}
+    </div>
+    <div class="ficha-seccion">
+      <h3 class="ficha-subtitulo">Herramientas</h3>
+      ${lista(m.herramientas)}
+    </div>
+    <div class="ficha-seccion">
+      <h3 class="ficha-subtitulo">Recursos</h3>
+      ${recursosLista}
+    </div>
+    <div class="ficha-seccion">
+      <h3 class="ficha-subtitulo">Evidencias</h3>
+      ${evidenciasLista}
+    </div>
+    <div class="ficha-seccion">
+      <h3 class="ficha-subtitulo">Quiz</h3>
+      ${quizLista}
+    </div>
+  `;
+
+  els.modalFicha.classList.add("modal--open");
+  els.modalFicha.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeFicha() {
+  if (!els.modalFicha) return;
+  els.modalFicha.classList.remove("modal--open");
+  els.modalFicha.setAttribute("aria-hidden", "true");
+  els.modalFichaContent.innerHTML = "";
+  document.body.style.overflow = "";
 }
 
 if (document.readyState === "loading") {
