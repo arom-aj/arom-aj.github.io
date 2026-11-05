@@ -631,14 +631,27 @@ html.light .tag { background: rgba(28, 25, 23, 0.03); }
 .module-card__footer {
   padding: 12px 20px 18px;
   border-top: 1px solid rgba(0,0,0,0.05);
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 html.light .module-card__footer { border-top-color: var(--panel-border); }
 .module-card__stats {
-  display: flex; gap: 12px; font-size: 11px; color: var(--text-dim); font-family: var(--font-mono);
-  flex: 1; min-width: 0;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
-.stat-pill { display: inline-flex; align-items: center; gap: 4px; }
+.stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
 .stat-pill span:first-child { color: var(--text-dim); }
 .stat-pill span:last-child { color: var(--text); }
 
@@ -650,11 +663,13 @@ html.light .module-card__footer { border-top-color: var(--panel-border); }
 
 /* Acciones del footer de tarjeta */
 .footer-actions {
-  display: flex; gap: 8px; flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
 }
 .footer-actions .btn--sm {
   flex: 0 0 auto;
-  min-width: 70px;
+  min-width: 65px;
   justify-content: center;
   white-space: nowrap;
 }
