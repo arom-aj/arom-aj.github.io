@@ -157,6 +157,14 @@ function renderProfesor(profId) {
   filtrarYRender();
 }
 
+function renderNombre(nombre) {
+  const match = nombre.match(/^(\S+)\s(.+)$/s);
+  if (match) {
+    return `<span class="module-card__numero">${escapeHtml(match[1])}</span> <span class="module-card__texto">${escapeHtml(match[2])}</span>`;
+  }
+  return escapeHtml(nombre);
+}
+
 function buildCard(m) {
   const docenteColor =
     DOCENTES.find((d) => d.id === m.docenteId)?.color || "#9ba7ce";
@@ -179,13 +187,12 @@ function buildCard(m) {
   return `
     <article class="module-card reveal" data-nivel="${m.nivel}">
       <div class="module-card__header">
-        <span class="module-card__id">${escapeHtml(m.id)}</span>
         <span class="module-card__doc" style="--doc-color: ${docenteColor}">
           <span class="dot" style="background:${docenteColor}"></span>
           ${escapeHtml(m.docente)}
         </span>
       </div>
-      <h3 class="module-card__title">${escapeHtml(m.nombre)}</h3>
+      <h3 class="module-card__title" title="${escapeHtml(m.nombre)}">${renderNombre(m.nombre)}</h3>
       <div class="module-card__body">
         <p class="module-card__desc">${escapeHtml(m.descripcion)}</p>
         <div class="module-card__tags">
