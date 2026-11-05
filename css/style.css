@@ -742,7 +742,11 @@ html.light .quiz-opcion:hover { background: #F5F1EA; }
 .footer-actions {
   display: flex; gap: 8px;
 }
-.footer-actions .btn--sm { flex: 1; justify-content: center; }
+.footer-actions .btn--sm {
+  flex: 0 0 auto;
+  min-width: 75px;
+  justify-content: center;
+}
 
 /* Ajustes responsivos para quiz */
 @media (max-width: 640px) {

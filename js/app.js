@@ -203,7 +203,7 @@ function actualizarProgresoGlobal() {
 
   if (els.progresoBarra) els.progresoBarra.style.width = `${porcentaje}%`;
   if (els.progresoTexto) els.progresoTexto.textContent = `${repasados} de ${total} módulos repasados`;
-  if (els.progresoGlobal) els.progresoGlobal.textContent = `${porcentaje}%`;
+  if (els.progresoGlobal) els.progresoGlobal.setAttribute("aria-valuenow", porcentaje);
 }
 
 function toggleProgreso(id) {
